@@ -6,7 +6,7 @@
  - обновляем пакетный менеджер pip командой: **python -m pip install --upgrade pip**
  - устанавливаем виртуальную среду: **python -m pip install --user virtualenv**
  - создаём виртуальную среду в папке с программой: **python -m venv venv**
- - в той же папке активируем виртуальную среду: **venv\Scripts\activate.bat**, если вы работаете в Коммандной строке. 
+ - в той же папке активируем виртуальную среду: **venv\Scripts\activate.bat**, если вы работаете в Коммандной строке.
 Если вы работаете в PowerShell, то запустите команду **.\venv\Scripts\activate.ps1**. Если вы видите ошибку:
 **cannot be loaded because running scripts is disabled on this system**, то запустите PowerShell от имени администратора
 и введите команду **Set-ExecutionPolicy RemoteSigned**. Она позволит запустить скрипт. Введите его еще раз: **.\venv\Scripts\activate.ps1**

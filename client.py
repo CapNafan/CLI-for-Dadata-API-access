@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 from typing import List, Dict
 from dadata import Dadata
 from user_settings import UserSettings
@@ -27,7 +28,7 @@ class Client:
                     print(index + 1, ') ', suggestion['value'], sep='')
                 return self.suggestions
             else:
-                print("No suggestions found")
+                logging.info("No suggestions found")
                 return self.suggestions
 
     def get_coordinates(self,
@@ -47,7 +48,7 @@ class Client:
             if settings.validate_language(self.language):
                 settings.change_suggestion_language(self.language)
             else:
-                print(f"Language {self.language} not supported. Default language is ru")
+                logging.error(f"Language {self.language} not supported. Default language is ru")
         else:
             if not settings.get_user_settings()[0]:        # if there is no language settings in DB:
                 settings.change_suggestion_language('ru')  # set default suggestions language
@@ -69,3 +70,12 @@ class Client:
                 settings.change_secret_key(self.secret)
             else:
                 raise ValueError
+
+
+logging.basicConfig(
+        level=logging.INFO,
+        handlers=[
+            logging.FileHandler('info.log'),
+            logging.StreamHandler()
+        ],
+        format='%(levelname)s - %(message)s')

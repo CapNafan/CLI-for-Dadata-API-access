@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+import logging
 from httpx import HTTPStatusError
 from argparse import ArgumentParser, Namespace
 
@@ -52,27 +54,34 @@ def main():
 
             final = client.get_coordinates(chosen_suggestion, api, secret)
             if final[1] and final[2]:
-                print(f"Coordinates for {final[0]} are:\n Lat {final[1]} Long {final[2]}")
+                logging.info(f"Coordinates for {final[0]} are:\n Lat {final[1]} Long {final[2]}")
             else:
-                print(f"Unable to get coordinates for {final[0]}")  # processing results with no coordinates
+                logging.info(f"Unable to get coordinates for {final[0]}")  # processing results with no coordinates
 
         except IndexError:  # if chosen suggestion is out of list's range
-            print("There is something wrong with your choice. Try again")
+            logging.error("There is something wrong with your choice. Try again")
             continue
 
         except (HTTPStatusError, TypeError):  # if there is no key in DB or if it's wrong
-            print('There is something wrong with your api key or secret key.\n'
-                  'Try setting a new key using \'-k\' or \'-s\' flags')
+            logging.error('There is something wrong with your api key or secret key.\n'
+                         'Try setting a new key using \'-k\' or \'-s\' flags')
             break
 
         except (KeyboardInterrupt, EOFError):  # Ctrl+C or Ctrl+Z to exit
-            print("Program was stopped")
+            logging.info("Program was stopped")
             break
 
         except ValueError:  # if validation failed
-            print("Your key is not valid. Please enter a valid key")
+            logging.error("Your key is not valid. Please enter a valid key")
             break
 
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        level=logging.INFO,
+        handlers=[
+            logging.FileHandler('info.log'),
+            logging.StreamHandler()
+        ],
+        format='%(levelname)s - %(message)s')
     main()
